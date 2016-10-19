@@ -13,17 +13,21 @@ LoginApp.controller('signIn', function($scope, $http,$window) {
 				"password" : $scope.password
 			}
 		}).success(function(data) {
-			if (data.statusCode === 401) {
-				$scope.invalid_login = false;
-				$scope.unexpected_error = true;
-			}
-			else {
-				$window.location.assign("/homepage"); 
+			if (data.status_code === 500) {
+				$scope.invalid_login = true;
+				$scope.unexpected_error = false;
+				
+			} else {		 
+				$window.location.assign("/homepage");
 			}
 		}).error(function(error) {
-			$scope.unexpected_error = false;
-			$scope.invalid_login = true;
+			$scope.unexpected_error = true;
+			$scope.invalid_login = false;
 		});
+	};
+	
+	$scope.create = function() {
+		$window.location.assign("/");
 	};
 });
 
@@ -40,15 +44,28 @@ LoginApp.controller('register', function($scope, $http,$window) {
 				"lname"		:	$scope.lname
 			}
 		}).success(function(data) {
-			if(data.statusCode === 200) {
+			if(data.status_code === 200) {
 				$window.location.assign("/signIn"); 
 			} else {
 				$window.location.assign("/register"); 
 			}
 		});
 	};
+	
+	$scope.alreadyAccount = function() {
+		$window.location.assign("/signIn");
+	};
 });
 
-LoginApp.controller('homepage', function($scope, $http,$window) {
-	
+
+LoginApp.controller('homepage', function($scope, $http) {
+	$http({
+		method : "POST",
+		url : '/homepage',
+	}).success(function(data) {
+		$scope.username	=	data.username;
+		$scope.email	=	data.email;
+		$scope.fname	=	data.fname;
+		$scope.lname	=	data.lname;
+	});
 });

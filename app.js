@@ -4,9 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var http = require('http');
+var expressSession = require('express-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+
+var mongo = require("./routes/mongo");
 
 var app = express();
 
@@ -22,6 +26,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.use(expressSession({
+	secret: 'cmpe273_teststring',
+	resave: false,  //don't save session if unmodified
+	saveUninitialized: false,	// don't create session until something stored
+	duration: 30 * 60 * 1000,    
+	cookie: { secure: !true },
+	activeDuration: 5 * 60 * 1000,
+}));
+
 app.use('/', routes);
 app.use('/users', users);
 
@@ -31,6 +45,8 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+
 
 // error handlers
 
@@ -55,6 +71,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
