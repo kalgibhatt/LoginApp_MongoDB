@@ -14,15 +14,15 @@ LoginApp.controller('signIn', function($scope, $http,$window) {
 			}
 		}).success(function(data) {
 			if (data.status_code === 500) {
-				$scope.invalid_login = true;
-				$scope.unexpected_error = false;
+				$scope.invalid_login = false;
+				$scope.unexpected_error = true;
 				
 			} else {		 
 				$window.location.assign("/homepage");
 			}
 		}).error(function(error) {
-			$scope.unexpected_error = true;
-			$scope.invalid_login = false;
+			$scope.unexpected_error = false;
+			$scope.invalid_login = true;
 		});
 	};
 	

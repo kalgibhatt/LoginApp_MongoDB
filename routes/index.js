@@ -23,15 +23,21 @@ router.post('/checkLogin', function(req,res,next) {
 		var user = db.collection('user-profile').findOne({
 			"username"	:	username
 		},function(err,result) {
-			if(password === result.password) {
-				console.log("Username and password are valid");
-				req.session.username = result.username;
-				req.session.email	=	result.email;
-				req.session.fname	=	result.fname;
-				req.session.lname	=	result.lname;
-				res.send({
-					"status_code"	:	200
-				});
+			if(result) {
+				if(password === result.password) {
+					console.log("Username and password are valid");
+					req.session.username = result.username;
+					req.session.email	=	result.email;
+					req.session.fname	=	result.fname;
+					req.session.lname	=	result.lname;
+					res.send({
+						"status_code"	:	200
+					});
+				} else {
+					res.send({
+						"status_code"	:	500
+					});
+				}
 			} else {
 				res.send({
 					"status_code"	:	500

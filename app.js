@@ -11,6 +11,8 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var mongo = require("./routes/mongo");
+var mongoSessionConnectURL = "mongodb://localhost:27017/LoginApp_MongoDB";
+var mongoStore = require("connect-mongo")(expressSession);
 
 var app = express();
 
@@ -34,6 +36,9 @@ app.use(expressSession({
 	duration: 30 * 60 * 1000,    
 	cookie: { secure: !true },
 	activeDuration: 5 * 60 * 1000,
+	store: new mongoStore({
+		url: mongoSessionConnectURL
+	})
 }));
 
 app.use('/', routes);
