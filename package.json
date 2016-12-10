@@ -15,6 +15,7 @@
     "express-session": "^1.14.1",
     "mongodb": "~2.0",
     "morgan": "~1.7.0",
+    "ngprogress": "^1.1.1",
     "nodemon": "^1.11.0",
     "serve-favicon": "~2.3.0"
   }

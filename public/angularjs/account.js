@@ -1,6 +1,6 @@
-var LoginApp = angular.module('LoginApp', []);
+var LoginApp = angular.module('LoginApp', ['ngProgress']);
 
-LoginApp.controller('signIn', function($scope, $http,$window) {
+LoginApp.controller('signIn', function($scope, $http,$window, ngProgressFactory, $timeout) {
 	
 	$scope.invalid_login = true;
 	$scope.unexpected_error = true;
@@ -29,9 +29,13 @@ LoginApp.controller('signIn', function($scope, $http,$window) {
 	$scope.create = function() {
 		$window.location.assign("/");
 	};
+	
+	$scope.progressbar = ngProgressFactory.createInstance();
+	$scope.progressbar.start();
+	$scope.progressbar.complete();
 });
 
-LoginApp.controller('register', function($scope, $http,$window) {
+LoginApp.controller('register', function($scope, $http,$window, ngProgressFactory, $timeout) {
 	$scope.submit = function() {
 		$http({
 			method : "POST",
@@ -55,10 +59,14 @@ LoginApp.controller('register', function($scope, $http,$window) {
 	$scope.alreadyAccount = function() {
 		$window.location.assign("/signIn");
 	};
+	
+	$scope.progressbar = ngProgressFactory.createInstance();
+	$scope.progressbar.start();
+	$scope.progressbar.complete();
 });
 
 
-LoginApp.controller('homepage', function($scope, $http) {
+LoginApp.controller('homepage', function($scope, $http, ngProgressFactory, $timeout) {
 	$http({
 		method : "POST",
 		url : '/homepage',
@@ -68,4 +76,8 @@ LoginApp.controller('homepage', function($scope, $http) {
 		$scope.fname	=	data.fname;
 		$scope.lname	=	data.lname;
 	});
+	
+	$scope.progressbar = ngProgressFactory.createInstance();
+	$scope.progressbar.start();
+	$scope.progressbar.complete();
 });
